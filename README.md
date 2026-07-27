@@ -28,6 +28,7 @@ Models are trained on 2019–2023 data and evaluated on a held-out **2024 season
 ## Dataset
 
 - **File:** `16_F1_Race_Results_2019_2024.csv`
+- **Records:** 2,559 driver-race results across the 2019–2024 seasons
 - **Target:** `podium_finish` — 1 if finishing position is 1st–3rd, 0 otherwise
 - **Features used:**
   - `Starting Grid`
@@ -36,6 +37,27 @@ Models are trained on 2019–2023 data and evaluated on a held-out **2024 season
   - `Track` (one-hot encoded)
 
 Rows with missing values in the selected features are dropped. The `season` column is used only for splitting train vs. validation data and is excluded from model inputs to avoid leakage.
+
+### Data attributes
+
+| Attribute | Type | Description | Missing | Role in project |
+|---|---|---|---|---|
+| `Track` | string | Grand Prix circuit name (34 circuits) | 0 | Model feature (one-hot) |
+| `Position` | string | Finishing position (1–20, `NC`, or `DQ`) | 0 | Used to derive `podium_finish` |
+| `No` | integer | Driver/car number (1–99) | 0 | Not used |
+| `Driver` | string | Driver name (36 drivers) | 0 | Model feature (one-hot) |
+| `Team` | string | Constructor/team name (22 teams) | 0 | Model feature (one-hot) |
+| `Starting Grid` | float | Starting grid slot (1–20) | 1 | Model feature |
+| `Laps` | integer | Laps completed (0–87) | 0 | Not used |
+| `Time/Retired` | string | Race finish time or retirement reason | 760 | Not used |
+| `Points` | float | Championship points awarded (0–26) | 0 | Not used |
+| `+1 Pt` | string | Extra point for fastest lap (`Yes` / `No`) | 1,679 | Not used |
+| `Fastest Lap` | string | Lap time when driver set fastest lap | 970 | Not used |
+| `season` | integer | F1 season year (2019–2024) | 0 | Train/validation split only |
+| `Set Fastest Lap` | string | Whether driver set fastest lap (`Yes` / `No`) | 1,640 | Not used |
+| `Fastest Lap Time` | string | Fastest lap time in the race | 1,669 | Not used |
+| `Total Time/Gap/Retirement` | string | Gap to winner or retirement status | 1,799 | Not used |
+| `podium_finish` | integer | Binary target: 1 = podium (1st–3rd), 0 = otherwise | — | Target variable (derived) |
 
 ## Methods
 
